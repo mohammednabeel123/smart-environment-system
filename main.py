@@ -23,13 +23,13 @@ try:
 
             # Control LED based on temperature
             if temp > 29:
-                GPIO.output(LED_PIN, GPIO.HIGH)   # turn LED on
+                GPIO.output(WHITE_PIN, GPIO.HIGH)   # turn LED on
                 if hum > 72:
                    GPIO.setup(GREEN_PIN, GPIO.HIGH) 
                 else:
                     GPIO.setup(GREEN_PIN, GPIO.LOW)       
             else:
-                GPIO.output(LED_PIN, GPIO.LOW)    # turn LED off
+                GPIO.output(WHITE_PIN, GPIO.LOW)    # turn LED off
 
         except RuntimeError as e:
             print("Read error:", e)
