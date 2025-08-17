@@ -7,7 +7,7 @@ import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
 WHITE_PIN = 3
 GREEN_PIN = 4
-DO_PIN = 17  # GPIO pin connected to LDR module digital output
+DO_PIN = 27  # GPIO pin connected to LDR module digital output
 
 GPIO.setup(WHITE_PIN, GPIO.OUT)
 GPIO.setup(GREEN_PIN, GPIO.OUT)
