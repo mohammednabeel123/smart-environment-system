@@ -9,12 +9,8 @@ GPIO.setup(WHITE_PIN, GPIO.OUT)
 GPIO.setup(GREEN_PIN, GPIO.OUT)
 
 try:
-    while True:
-        GPIO.output(WHITE_PIN, GPIO.HIGH)  # Turn WHITE LED on
-        GPIO.output(GREEN_PIN, GPIO.HIGH)  # Turn GREEN LED on
-        time.sleep(2)
-        GPIO.output(WHITE_PIN, GPIO.LOW)   # Turn WHITE LED off
-        GPIO.output(GREEN_PIN, GPIO.LOW)   # Turn GREEN LED off
-        time.sleep(2)
+    GPIO.output(WHITE_PIN, GPIO.HIGH)  # Turn WHITE LED on
+    GPIO.output(GREEN_PIN, GPIO.HIGH)  # Turn GREEN LED on
+    time.sleep(5)                       # Wait 5 seconds
 finally:
     GPIO.cleanup()
