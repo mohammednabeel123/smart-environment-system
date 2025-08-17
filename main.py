@@ -25,7 +25,7 @@ try:
             # Control LED based on temperature
             if temp > 29:
                 GPIO.output(WHITE_PIN, GPIO.HIGH)   # turn WHITE LED on
-                if hum > 72:
+                if hum > 70:
                     GPIO.output(GREEN_PIN, GPIO.HIGH)  # turn GREEN LED on
                 else:
                     GPIO.output(GREEN_PIN, GPIO.LOW)   # turn GREEN LED off
