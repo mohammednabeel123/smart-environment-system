@@ -22,14 +22,16 @@ try:
             print(f"Temperature: {temp:.1f} °C   Humidity: {hum:.1f}%")
 
             # Control LED based on temperature
+            # Control LED based on temperature
             if temp > 29:
-                GPIO.output(WHITE_PIN, GPIO.HIGH)   # turn LED on
+                GPIO.output(WHITE_PIN, GPIO.HIGH)   # turn WHITE LED on
                 if hum > 72:
-                   GPIO.setup(GREEN_PIN, GPIO.HIGH) 
+                    GPIO.output(GREEN_PIN, GPIO.HIGH)  # turn GREEN LED on
                 else:
-                    GPIO.setup(GREEN_PIN, GPIO.LOW)       
+                    GPIO.output(GREEN_PIN, GPIO.LOW)   # turn GREEN LED off
             else:
-                GPIO.output(WHITE_PIN, GPIO.LOW)    # turn LED off
+                GPIO.output(WHITE_PIN, GPIO.LOW)    # turn WHITE LED off
+                GPIO.output(GREEN_PIN, GPIO.LOW)    # make sure GREEN LED is off
 
         except RuntimeError as e:
             print("Read error:", e)
