@@ -6,8 +6,10 @@ import RPi.GPIO as GPIO
 
 # Setup
 GPIO.setmode(GPIO.BCM)
-LED_PIN = 3
-GPIO.setup(LED_PIN, GPIO.OUT)
+WHITE_PIN = 3
+GREEN_PIN = 4
+GPIO.setup(WHITE_PIN, GPIO.OUT)
+GPIO.setup(GREEN_PIN, GPIO.OUT)
 
 # DHT22
 dhtDevice = adafruit_dht.DHT22(board.D2)
@@ -22,6 +24,10 @@ try:
             # Control LED based on temperature
             if temp > 29:
                 GPIO.output(LED_PIN, GPIO.HIGH)   # turn LED on
+                if hum > 72:
+                   GPIO.setup(GREEN_PIN, GPIO.HIGH) 
+                else:
+                    GPIO.setup(GREEN_PIN, GPIO.LOW)       
             else:
                 GPIO.output(LED_PIN, GPIO.LOW)    # turn LED off
 
