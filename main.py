@@ -20,7 +20,7 @@ try:
             print(f"Temperature: {temp:.1f} °C   Humidity: {hum:.1f}%")
 
             # Control LED based on temperature
-            if temp < 28:
+            if temp > 29:
                 GPIO.output(LED_PIN, GPIO.HIGH)   # turn LED on
             else:
                 GPIO.output(LED_PIN, GPIO.LOW)    # turn LED off
