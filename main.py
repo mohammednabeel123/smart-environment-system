@@ -4,8 +4,8 @@ import adafruit_dht
 import RPi.GPIO as GPIO
 
 # --- GPIO Pins ---
-WHITE_PIN = 2  # Changed to avoid conflicts with I2C
-GREEN_PIN = 3
+WHITE_PIN = 3  # Changed to avoid conflicts with I2C
+GREEN_PIN = 2
 DO_PIN = 27      # LDR digital output
 
 # --- Setup ---
