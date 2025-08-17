@@ -4,9 +4,9 @@ import adafruit_dht
 import RPi.GPIO as GPIO
 
 # --- GPIO Pins ---
-WHITE_PIN = 17  # Changed to avoid conflicts with I2C
-GREEN_PIN = 27
-DO_PIN = 22      # LDR digital output
+WHITE_PIN = 2  # Changed to avoid conflicts with I2C
+GREEN_PIN = 3
+DO_PIN = 27      # LDR digital output
 
 # --- Setup ---
 GPIO.setmode(GPIO.BCM)
@@ -15,7 +15,7 @@ GPIO.setup(GREEN_PIN, GPIO.OUT)
 GPIO.setup(DO_PIN, GPIO.IN)
 
 # --- DHT22 Setup ---
-dhtDevice = adafruit_dht.DHT22(board.D4)  # Use a free GPIO pin
+dhtDevice = adafruit_dht.DHT22(board.D2)  # Use a free GPIO pin
 
 try:
     while True:
