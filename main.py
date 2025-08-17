@@ -6,7 +6,7 @@ import RPi.GPIO as GPIO
 # --- GPIO Pins ---
 WHITE_PIN = 3  # Changed to avoid conflicts with I2C
 GREEN_PIN = 2
-DO_PIN = 27      # LDR digital output
+DO_PIN = 22      # LDR digital output
 
 # --- Setup ---
 GPIO.setmode(GPIO.BCM)
