@@ -1,20 +1,20 @@
 import Adafruit_DHT
-import time
 import RPi.GPIO as GPIO
+import time
 
-# --- Setup ---
+# --- GPIO PINS ---
 DHT_SENSOR = Adafruit_DHT.DHT22
 DHT_PIN = 2       # GPIO pin for DHT22 data
 LDR_PIN = 22      # GPIO pin connected to LDR digital output
 RELAY_PIN = 21    # GPIO pin connected to relay module
 
-# GPIO setup
+# --- GPIO SETUP ---
 GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)             # Use BCM pin numbering
-GPIO.setup(LDR_PIN, GPIO.IN)       # LDR as input
-GPIO.setup(RELAY_PIN, GPIO.OUT)    # Relay as output
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(LDR_PIN, GPIO.IN)
+GPIO.setup(RELAY_PIN, GPIO.OUT)
 
-print("Testing DHT22 + LDR + Relay...")
+print("Starting Smart Environment Monitor...")
 
 try:
     while True:
