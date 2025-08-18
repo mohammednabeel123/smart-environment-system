@@ -3,9 +3,7 @@ import Adafruit_DHT
 import RPi.GPIO as GPIO
 from gpiozero import Buzzer
 
-# ----------------------------
 # GPIO PIN SETUP
-# ----------------------------
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
@@ -27,9 +25,9 @@ GPIO.setup(RELAY_PIN, GPIO.OUT)
 GPIO.setup(RED_LED, GPIO.OUT)
 GPIO.setup(GREEN_LED, GPIO.OUT)
 
-# ----------------------------
+
 # MAIN LOOP
-# ----------------------------
+
 
 print("Starting Smart Environment Monitor...")
 try:
@@ -42,7 +40,7 @@ try:
             print("Failed to read from DHT22 sensor")
 
         # --- Read LDR ---
-        if GPIO.input(LDR_PIN) == 1:
+        if GPIO.input(LDR_PIN) == 0:
             print("LDR: Dark")
         else:
             print("LDR: Light detected")
