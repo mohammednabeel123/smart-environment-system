@@ -30,6 +30,7 @@ GPIO.setup(GREEN_LED, GPIO.OUT)
 # ----------------------------
 # MAIN LOOP
 # ----------------------------
+
 print("Starting Smart Environment Monitor...")
 try:
     while True:
@@ -46,15 +47,15 @@ try:
         else:
             print("LDR: Light detected")
 
-        # --- Temperature Logic ---
-        if temperature is not None and temperature > 28:
-            print("Fan ON (Simulated via Red LED and Relay)")
+        # --- Temperature Logic (Threshold 30°C) ---
+        if temperature is not None and temperature >= 30:
+            print("Fan ON (Red LED + Relay + Buzzer)")
             GPIO.output(RELAY_PIN, GPIO.HIGH)    # Relay ON
             GPIO.output(RED_LED, GPIO.HIGH)      # Red LED ON
             GPIO.output(GREEN_LED, GPIO.LOW)     # Green LED OFF
-            buzzer.on()                          # Optional: Buzzer ON
+            buzzer.on()                          # Buzzer ON
         else:
-            print("Fan OFF (Simulated via Green LED)")
+            print("Fan OFF (Green LED)")
             GPIO.output(RELAY_PIN, GPIO.LOW)     # Relay OFF
             GPIO.output(RED_LED, GPIO.LOW)       # Red LED OFF
             GPIO.output(GREEN_LED, GPIO.HIGH)    # Green LED ON
@@ -64,4 +65,5 @@ try:
 
 except KeyboardInterrupt:
     print("Exiting program...")
+    buzzer.off()
     GPIO.cleanup()
