@@ -25,7 +25,6 @@ GPIO.setup(RED_LED, GPIO.OUT)
 GPIO.setup(GREEN_LED, GPIO.OUT)
 
 FAN_TEMP_THRESHOLD = 30  # Relay ON temp
-temperature = float(temperature)
 
 
 print("Starting Smart Environment Monitor...")
@@ -34,6 +33,7 @@ try:
     while True:
         # --- Read DHT22 ---
         humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
+        temperature = float(temperature)
         if humidity is not None and temperature is not None:
             print(f"Temperature: {temperature:.1f}°C | Humidity: {humidity:.1f}%")
         else:
