@@ -42,21 +42,24 @@ try:
         # --- Read LDR ---
         if GPIO.input(LDR_PIN) == 1:
             print("LDR: Dark")
+             GPIO.output(RED_LED, GPIO.LOW)       # Red LED OFF
+            GPIO.output(GREEN_LED, GPIO.HIGH)    # Green LED ON
         else:
             print("LDR: Light detected")
+            GPIO.output(RED_LED, GPIO.HIGH)      # Red LED ON
+            GPIO.output(GREEN_LED, GPIO.LOW)     # Green LED OFF
 
         # --- Temperature Logic (Threshold 30°C) ---
         if temperature is not None and temperature >= 28:
             print("Fan ON (Red LED + Relay + Buzzer)")
             GPIO.output(RELAY_PIN, GPIO.HIGH)    # Relay ON
-            GPIO.output(RED_LED, GPIO.HIGH)      # Red LED ON
-            GPIO.output(GREEN_LED, GPIO.LOW)     # Green LED OFF
+            
+         
             buzzer.on()                          # Buzzer ON
         else:
             print("Fan OFF (Green LED)")
             GPIO.output(RELAY_PIN, GPIO.LOW)     # Relay OFF
-            GPIO.output(RED_LED, GPIO.LOW)       # Red LED OFF
-            GPIO.output(GREEN_LED, GPIO.HIGH)    # Green LED ON
+           
             buzzer.off()                         # Buzzer OFF
 
         time.sleep(2)  # Delay before next reading
