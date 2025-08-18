@@ -24,7 +24,7 @@ GPIO.setup(RELAY_PIN, GPIO.OUT)
 GPIO.setup(RED_LED, GPIO.OUT)
 GPIO.setup(GREEN_LED, GPIO.OUT)
 
-FAN_TEMP_THRESHOLD = 28  # Relay ON temp
+FAN_TEMP_THRESHOLD = 30  # Relay ON temp
 
 print("Starting Smart Environment Monitor...")
 
