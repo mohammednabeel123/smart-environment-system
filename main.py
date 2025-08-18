@@ -40,7 +40,7 @@ try:
             continue
 
         # --- LDR LED control ---
-        if GPIO.input(LDR_PIN) == 1:  # Light detected
+        if GPIO.input(LDR_PIN) == 0:  # Light detected
             print("LDR: Light detected")
             GPIO.output(RED_LED, GPIO.HIGH)
             GPIO.output(GREEN_LED, GPIO.LOW)
