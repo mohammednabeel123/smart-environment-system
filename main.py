@@ -40,13 +40,13 @@ try:
             print("Failed to read from DHT22 sensor")
 
         # --- Read LDR ---
-        if GPIO.input(LDR_PIN) == 0:
+        if GPIO.input(LDR_PIN) == 1:
             print("LDR: Dark")
         else:
             print("LDR: Light detected")
 
         # --- Temperature Logic (Threshold 30°C) ---
-        if temperature is not None and temperature >= 30:
+        if temperature is not None and temperature >= 28:
             print("Fan ON (Red LED + Relay + Buzzer)")
             GPIO.output(RELAY_PIN, GPIO.HIGH)    # Relay ON
             GPIO.output(RED_LED, GPIO.HIGH)      # Red LED ON
