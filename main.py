@@ -1,5 +1,6 @@
 import Adafruit_DHT
 import time
+import RPi.GPIO as GPIO
 
 # Set the sensor type and GPIO pin
 DHT_SENSOR = Adafruit_DHT.DHT22
