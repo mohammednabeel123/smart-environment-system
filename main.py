@@ -39,7 +39,6 @@ def button_pressed(channel):
     print("Button pressed → Fan toggled")
     GPIO.output(RELAY_PIN, not GPIO.input(RELAY_PIN))
 
-GPIO.add_event_detect(BUTTON_PIN, GPIO.FALLING, callback=button_pressed, bouncetime=300)
 
 # --- MAIN LOOP ---
 try:
