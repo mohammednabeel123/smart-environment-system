@@ -52,6 +52,7 @@ try:
         # --- Temperature relay/fan control ---
         if temperature >= FAN_TEMP_THRESHOLD:
             print("Fan ON (Relay + Buzzer)")
+            print(f"Temperature raw value: {repr(temperature)}, type: {type(temperature)}")
             GPIO.output(RELAY_PIN, GPIO.HIGH)
             buzzer.on()
         else:
