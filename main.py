@@ -52,8 +52,8 @@ try:
         # --- Temperature Logic (Threshold 30°C) ---
         if temperature is not None and temperature >= 28:
             print("Fan ON (Red LED + Relay + Buzzer)")
+            print("Temperature read:", temperature, type(temperature))
             GPIO.output(RELAY_PIN, GPIO.HIGH)    # Relay ON
-            
             buzzer.on()                          # Buzzer ON
         else:
             print("Fan OFF (Green LED)")
