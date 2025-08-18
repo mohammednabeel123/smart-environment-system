@@ -4,14 +4,14 @@ import Adafruit_DHT
 
 # --- GPIO SETUP ---
 DHT_SENSOR = Adafruit_DHT.DHT22
-DHT_PIN = 4  # GPIO pin where DHT22 is connected
+DHT_PIN = 2  # GPIO pin where DHT22 is connected
 
-LDR_PIN = 17
-RELAY_PIN = 27
-BUZZER_PIN = 22
-BUTTON_PIN = 23
-LED1_PIN = 24
-LED2_PIN = 25
+LDR_PIN = 22
+RELAY_PIN = 21
+BUZZER_PIN = 20
+BUTTON_PIN = 17
+LED1_PIN = 4
+LED2_PIN = 3
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(LDR_PIN, GPIO.IN)
