@@ -42,7 +42,7 @@ try:
             print("Failed to read from DHT22 sensor")
 
         # --- Read LDR ---
-        if GPIO.input(LDR_PIN) == 0:
+        if GPIO.input(LDR_PIN) == 1:
             print("LDR: Dark")
         else:
             print("LDR: Light detected")
