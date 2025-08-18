@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 
-RELAY_PIN = 17
+RELAY_PIN = 21
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(RELAY_PIN, GPIO.OUT)
