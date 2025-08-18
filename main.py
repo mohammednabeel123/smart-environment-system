@@ -1,56 +1,66 @@
+import time
 import Adafruit_DHT
 import RPi.GPIO as GPIO
-import time
 from gpiozero import Buzzer
 
+# ----------------------------
+# GPIO PIN SETUP
+# ----------------------------
 GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 
-# --- GPIO PINS ---
+# Sensors
 DHT_SENSOR = Adafruit_DHT.DHT22
-DHT_PIN = 2       # GPIO pin for DHT22 data
-LDR_PIN = 22      # GPIO pin connected to LDR digital output
-RELAY_PIN = 21    # GPIO pin connected to relay module
-Red_led = 3     # GPIO pin connected to White  Led
-Green_led = 4     # GPIO pin connected to Green Led
-buzzer = Buzzer(20)
+DHT_PIN = 2       # DHT22 data pin
+LDR_PIN = 22      # LDR digital output
 
-# --- GPIO SETUP ---
+# Actuators / Indicators
+RELAY_PIN = 21    # Relay (simulating fan)
+RED_LED = 3       # Red LED = Fan ON
+GREEN_LED = 4     # Green LED = Fan OFF / Safe
+BUZZER_PIN = 20
+buzzer = Buzzer(BUZZER_PIN)
+
+# Initialize pins
 GPIO.setup(LDR_PIN, GPIO.IN)
 GPIO.setup(RELAY_PIN, GPIO.OUT)
-GPIO.setup(Red_led, GPIO.OUT)
-GPIO.setup(Green_led, GPIO.OUT)
+GPIO.setup(RED_LED, GPIO.OUT)
+GPIO.setup(GREEN_LED, GPIO.OUT)
 
-
-
+# ----------------------------
+# MAIN LOOP
+# ----------------------------
 print("Starting Smart Environment Monitor...")
-
 try:
     while True:
+        # --- Read DHT22 ---
         humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
         if humidity is not None and temperature is not None:
-            print(f"Temp: {temperature:.1f}°C  Humidity: {humidity:.1f}%")
+            print(f"Temperature: {temperature:.1f}°C | Humidity: {humidity:.1f}%")
         else:
-            print("Failed to read from DHT22")
+            print("Failed to read from DHT22 sensor")
 
         # --- Read LDR ---
-        ldr_value = GPIO.input(LDR_PIN)  # 0 = dark, 1 = light
-        if ldr_value == 0:
+        if GPIO.input(LDR_PIN) == 0:
             print("LDR: Dark")
         else:
             print("LDR: Light detected")
 
-        # --- Fan Control (Relay) ---
+        # --- Temperature Logic ---
         if temperature is not None and temperature > 28:
-            print("Fan ON (hot temperature)")
-            GPIO.output(RELAY_PIN, GPIO.HIGH)  # Relay ON
-            GPIO.output(Red_led, GPIO.HIGH)  # Red led On
-            GPIO.output(Green_led, GPIO.LOW)  # Green led On
+            print("Fan ON (Simulated via Red LED and Relay)")
+            GPIO.output(RELAY_PIN, GPIO.HIGH)    # Relay ON
+            GPIO.output(RED_LED, GPIO.HIGH)      # Red LED ON
+            GPIO.output(GREEN_LED, GPIO.LOW)     # Green LED OFF
+            buzzer.on()                          # Optional: Buzzer ON
         else:
-            print("Fan OFF (cool temperature)")
-            GPIO.output(RELAY_PIN, GPIO.LOW)   # relay OFF
-            GPIO.output(Green_led, GPIO.HIGH)   # Green led  On
-            GPIO.output(Red_led, GPIO.LOW) # Red led OFF
-        time.sleep(2)
+            print("Fan OFF (Simulated via Green LED)")
+            GPIO.output(RELAY_PIN, GPIO.LOW)     # Relay OFF
+            GPIO.output(RED_LED, GPIO.LOW)       # Red LED OFF
+            GPIO.output(GREEN_LED, GPIO.HIGH)    # Green LED ON
+            buzzer.off()                         # Buzzer OFF
+
+        time.sleep(2)  # Delay before next reading
 
 except KeyboardInterrupt:
     print("Exiting program...")
