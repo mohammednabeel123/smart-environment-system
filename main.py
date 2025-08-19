@@ -7,9 +7,11 @@ GPIO.setup(RELAY_PIN, GPIO.OUT, initial=GPIO.HIGH)  # OFF
 
 try:
     while True:
-        GPIO.output(RELAY_PIN, GPIO.LOW)   # Should turn fan ON
+        print("Relay ON")
+        GPIO.output(RELAY_PIN, GPIO.LOW)   # ON
         time.sleep(2)
-        GPIO.output(RELAY_PIN, GPIO.HIGH)  # Should turn fan OFF
+        print("Relay OFF")
+        GPIO.output(RELAY_PIN, GPIO.HIGH)  # OFF
         time.sleep(2)
 except KeyboardInterrupt:
     GPIO.cleanup()
