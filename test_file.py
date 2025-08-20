@@ -18,36 +18,39 @@ RELAY_PIN = 16
 RED_LED = 3
 GREEN_LED = 4
 buzzer = Buzzer(20)
-button = Button(17,pull_up = False)
+button = Button(17, pull_up=False)
 
-# --- GPIO SETUP ---
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
-
+# Setup GPIO pins
 GPIO.setup(RELAY_PIN, GPIO.OUT, initial=GPIO.HIGH)  # Relay OFF at start
-GPIO.output(RELAY_PIN, GPIO.HIGH) 
+GPIO.output(RELAY_PIN, GPIO.HIGH)                   # Force OFF
 GPIO.setup(LDR_PIN, GPIO.IN)
 GPIO.setup(RED_LED, GPIO.OUT)
 GPIO.setup(GREEN_LED, GPIO.OUT)
 
-
 FAN_TEMP_THRESHOLD = 30  # Relay ON temp
 
-
 print("Starting Smart Environment Monitor...")
+
 try:
     while True:
+        # Read DHT22 sensor
         humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
 
+        # Skip iteration if sensor reading failed
+        if temperature is None or humidity is None:
+            print("Waiting for DHT sensor...")
+            time.sleep(2)
+            continue
+
         # Temperature-based fan control
-        if temperature < FAN_TEMP_THRESHOLD:
-            GPIO.output(RELAY_PIN, GPIO.HIGH)  # Relay OFF
-            buzzer.off()
-            print(f"Temperature: {temperature:.1f}°C | Humidity: {humidity:.1f}% | Fan OFF")
-        else:
-            GPIO.output(RELAY_PIN, GPIO.LOW)   # Relay ON
+        if temperature > FAN_TEMP_THRESHOLD:
+            GPIO.output(RELAY_PIN, GPIO.LOW)   # Relay ON (fan ON)
             buzzer.on()
             print(f"Temperature: {temperature:.1f}°C | Humidity: {humidity:.1f}% | Fan ON")
+        else:
+            GPIO.output(RELAY_PIN, GPIO.HIGH)  # Relay OFF (fan OFF)
+            buzzer.off()
+            print(f"Temperature: {temperature:.1f}°C | Humidity: {humidity:.1f}% | Fan OFF")
 
         # LDR-based LED control
         if GPIO.input(LDR_PIN) == 0:  # Light detected
