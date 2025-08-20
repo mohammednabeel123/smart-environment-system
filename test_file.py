@@ -26,12 +26,39 @@ GPIO.setup(RELAY_PIN, GPIO.OUT)
 GPIO.setup(RED_LED, GPIO.OUT)
 GPIO.setup(GREEN_LED, GPIO.OUT)
 
+FAN_TEMP_THRESHOLD = 30  # Relay ON temp
 
-while True:
-    if button.is_pressed:
-        print("pressed")
-        GPIO.setup(RELAY_PIN, GPIO.LOW)
-    else:
-        print("Button not pressed")
-        GPIO.setup(RELAY_PIN, GPIO.HIGH)
+
+print("Starting Smart Environment Monitor...")
+
+try:
+    while True:
+        humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
+        if temperature < FAN_TEMP_THRESHOLD:
+            GPIO.setup(RELAY_PIN, GPIO.LOW)
+            print(f"Temperature: {temperature:.1f}°C | Humidity: {humidity:.1f}%")
+            print("pressed")
+            buzzer.off() 
+        else:
+            GPIO.setup(RELAY_PIN, GPIO.HIGH)
+            print("Button not pressed")
+            print(f"Temperature: {temperature:.1f}°C | Humidity: {humidity:.1f}%")
+            print("Fan ON (Relay + Buzzer)")
+            print(f"Temperature raw value: {repr(temperature)}, type: {type(temperature)}")
+            buzzer.on()
         
+        if GPIO.input(LDR_PIN) == 0:  # Light detected
+            print("LDR: Light detected")
+            GPIO.output(RED_LED, GPIO.HIGH)
+            GPIO.output(GREEN_LED, GPIO.LOW)
+        else:  # Dark
+            print("LDR: Dark")
+            GPIO.output(RED_LED, GPIO.LOW)
+            GPIO.output(GREEN_LED, GPIO.HIGH)
+        
+    time.sleep(2)
+
+except KeyboardInterrupt:
+    print("Exiting program...")
+    buzzer.off()
+    GPIO.cleanup()
