@@ -28,29 +28,53 @@ GPIO.setup(GREEN_LED, GPIO.OUT)
 
 FAN_TEMP_THRESHOLD = 30  # Relay ON temp
 
+# Ensure all outputs are in a safe state initially
+GPIO.output(RELAY_PIN, GPIO.HIGH)  # Ensure relay is OFF
+GPIO.output(RED_LED, GPIO.LOW)
+GPIO.output(GREEN_LED, GPIO.LOW)
+buzzer.off()
+
 print("Starting Smart Environment Monitor...")
 print("Initializing sensors...")
 time.sleep(5)  # Wait for sensors to stabilize
 
+# Function to read DHT sensor with better error handling
+def read_dht_sensor():
+    try:
+        humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN, retries=5, delay_seconds=1)
+        return humidity, temperature
+    except Exception as e:
+        print(f"Error reading DHT sensor: {e}")
+        return None, None
+
 try:
+    # Read initial temperature to check if it's valid
+    humidity, temperature = read_dht_sensor()
+    
+    if temperature is None:
+        print("Failed to get temperature reading. Please check DHT sensor connection.")
+    else:
+        print(f"Initial temperature reading: {temperature:.1f}°C")
+        print(f"Temperature threshold for fan: {FAN_TEMP_THRESHOLD}°C")
+    
     while True:
-        # Keep reading until a valid sensor value is obtained
-        humidity, temperature = None, None
-        while temperature is None or humidity is None:
-            humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
-            if temperature is None or humidity is None:
-                print("Waiting for valid DHT reading...")
-                time.sleep(1)
+        humidity, temperature = read_dht_sensor()
+        
+        # If we can't get a reading, skip this iteration
+        if temperature is None or humidity is None:
+            print("Failed to get sensor reading. Skipping...")
+            time.sleep(2)
+            continue
 
         # Temperature-based fan control
-        if temperature is not None and temperature > FAN_TEMP_THRESHOLD:
+        if temperature > FAN_TEMP_THRESHOLD:
             GPIO.output(RELAY_PIN, GPIO.LOW)  # Relay ON (fan ON, active-low)
             buzzer.on()
             print(f"Temperature: {temperature:.1f}°C | Humidity: {humidity:.1f}% | Fan ON")
         else:
             GPIO.output(RELAY_PIN, GPIO.HIGH)  # Relay OFF (fan OFF, active-low)
             buzzer.off()
-            print(f"Temperature: {temperature if temperature is not None else 'N/A'}°C | Humidity: {humidity if humidity is not None else 'N/A'}% | Fan OFF")
+            print(f"Temperature: {temperature:.1f}°C | Humidity: {humidity:.1f}% | Fan OFF")
 
         # LDR-based LED control
         if GPIO.input(LDR_PIN) == 0:  # Light detected
@@ -66,5 +90,9 @@ try:
 
 except KeyboardInterrupt:
     print("Exiting program...")
+    # Ensure all outputs are turned off on exit
     buzzer.off()
+    GPIO.output(RELAY_PIN, GPIO.HIGH)
+    GPIO.output(RED_LED, GPIO.LOW)
+    GPIO.output(GREEN_LED, GPIO.LOW)
     GPIO.cleanup()
