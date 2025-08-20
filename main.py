@@ -1,7 +1,7 @@
 import time
 import Adafruit_DHT
 import RPi.GPIO as GPIO
-from gpiozero import Buzzer
+from gpiozero import Buzzer import Button
 
 # --- GPIO SETUP ---
 GPIO.setmode(GPIO.BCM)
@@ -17,6 +17,7 @@ RELAY_PIN = 16
 RED_LED = 3
 GREEN_LED = 4
 buzzer = Buzzer(20)
+button = Button(17)
 
 # Initialize pins
 GPIO.setup(RELAY_PIN, GPIO.OUT, initial=GPIO.LOW)  # Relay OFF at start

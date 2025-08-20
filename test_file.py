@@ -1,14 +1,34 @@
-import adafruit_dht
-import board
 import time
+import Adafruit_DHT
+import RPi.GPIO as GPIO
+from gpiozero import Buzzer import Button
 
-dht_device = adafruit_dht.DHT22(board.D4)  # Replace D4 with your actual pin
+# --- GPIO SETUP ---
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+
+# Sensors
+DHT_SENSOR = Adafruit_DHT.DHT22
+DHT_PIN = 2
+LDR_PIN = 22
+RELAY_PIN = 16
+
+# Actuators
+RED_LED = 3
+GREEN_LED = 4
+buzzer = Buzzer(20)
+button = Button(17)
+# Initialize pins
+GPIO.setup(RELAY_PIN, GPIO.OUT, initial=GPIO.LOW)  # Relay OFF at start
+GPIO.setup(LDR_PIN, GPIO.IN)
+GPIO.setup(RELAY_PIN, GPIO.OUT)
+GPIO.setup(RED_LED, GPIO.OUT)
+GPIO.setup(GREEN_LED, GPIO.OUT)
+
 
 while True:
-    try:
-        temperature = dht_device.temperature
-        humidity = dht_device.humidity
-        print(f"Temp: {temperature}°C  Humidity: {humidity}%")
-    except RuntimeError as e:
-        print(f"Error: {e}")
-    time.sleep(2)
+    if button.is_pressed:
+        print("pressed")
+    else:
+        print("Button not pressed")
+        
