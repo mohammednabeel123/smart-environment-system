@@ -20,7 +20,7 @@ GREEN_LED = 4
 buzzer = Buzzer(20)
 button = Button(17,pull_up = False)
 # Initialize pins
-GPIO.setup(RELAY_PIN, GPIO.OUT, initial=GPIO.LOW)  # Relay OFF at start
+GPIO.setup(RELAY_PIN, GPIO.OUT, initial=GPIO.HIGH)  # Relay OFF at start
 GPIO.setup(LDR_PIN, GPIO.IN)
 GPIO.setup(RELAY_PIN, GPIO.OUT)
 GPIO.setup(RED_LED, GPIO.OUT)
@@ -35,7 +35,7 @@ try:
     while True:
         humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
         if temperature < FAN_TEMP_THRESHOLD:
-            GPIO.setup(RELAY_PIN, GPIO.LOW)
+            GPIO.setup(RELAY_PIN, GPIO.HIGH)
             print(f"Temperature: {temperature:.1f}°C | Humidity: {humidity:.1f}%")
             print("pressed")
             buzzer.off() 
