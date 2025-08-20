@@ -25,6 +25,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
 GPIO.setup(RELAY_PIN, GPIO.OUT, initial=GPIO.HIGH)  # Relay OFF at start
+GPIO.output(RELAY_PIN, GPIO.HIGH) 
 GPIO.setup(LDR_PIN, GPIO.IN)
 GPIO.setup(RED_LED, GPIO.OUT)
 GPIO.setup(GREEN_LED, GPIO.OUT)
