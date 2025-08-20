@@ -19,7 +19,7 @@ GREEN_LED = 4
 buzzer = Buzzer(20)
 
 # Initialize pins
-GPIO.setup(RELAY_PIN, GPIO.OUT, initial=GPIO.HIGH)  # Relay OFF at start
+GPIO.setup(RELAY_PIN, GPIO.OUT, initial=GPIO.LOW)  # Relay OFF at start
 GPIO.setup(LDR_PIN, GPIO.IN)
 GPIO.setup(RELAY_PIN, GPIO.OUT)
 GPIO.setup(RED_LED, GPIO.OUT)
@@ -38,7 +38,7 @@ try:
             print(f"Temperature: {temperature:.1f}°C | Humidity: {humidity:.1f}%")
         else:
             print("Failed to read from DHT22 sensor")
-            GPIO.output(RELAY_PIN, GPIO.LOW)
+            GPIO.output(RELAY_PIN, GPIO.HIGH)
             time.sleep(2)
             continue
 
