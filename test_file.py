@@ -18,7 +18,7 @@ RELAY_PIN = 16
 RED_LED = 3
 GREEN_LED = 4
 buzzer = Buzzer(20)
-button = Button(17)
+button = Button(17,pull_up = True)
 # Initialize pins
 GPIO.setup(RELAY_PIN, GPIO.OUT, initial=GPIO.LOW)  # Relay OFF at start
 GPIO.setup(LDR_PIN, GPIO.IN)
