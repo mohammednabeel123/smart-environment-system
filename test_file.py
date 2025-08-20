@@ -21,8 +21,7 @@ buzzer = Buzzer(20)
 button = Button(17, pull_up=False)
 
 # Setup GPIO pins
-GPIO.setup(RELAY_PIN, GPIO.OUT, initial=GPIO.HIGH)  # Relay OFF at start
-GPIO.output(RELAY_PIN, GPIO.HIGH)                   # Force OFF
+GPIO.setup(RELAY_PIN, GPIO.OUT, initial=GPIO.HIGH)  # Relay OFF (active-low)
 GPIO.setup(LDR_PIN, GPIO.IN)
 GPIO.setup(RED_LED, GPIO.OUT)
 GPIO.setup(GREEN_LED, GPIO.OUT)
@@ -30,6 +29,8 @@ GPIO.setup(GREEN_LED, GPIO.OUT)
 FAN_TEMP_THRESHOLD = 30  # Relay ON temp
 
 print("Starting Smart Environment Monitor...")
+print("Initializing sensors...")
+time.sleep(5)  # Wait for sensors to stabilize
 
 try:
     while True:
@@ -42,14 +43,14 @@ try:
                 time.sleep(1)
 
         # Temperature-based fan control
-        if temperature > FAN_TEMP_THRESHOLD:
-            GPIO.output(RELAY_PIN, GPIO.LOW)   # Relay ON (fan ON)
+        if temperature is not None and temperature > FAN_TEMP_THRESHOLD:
+            GPIO.output(RELAY_PIN, GPIO.LOW)  # Relay ON (fan ON, active-low)
             buzzer.on()
             print(f"Temperature: {temperature:.1f}°C | Humidity: {humidity:.1f}% | Fan ON")
         else:
-            GPIO.output(RELAY_PIN, GPIO.HIGH)  # Relay OFF (fan OFF)
+            GPIO.output(RELAY_PIN, GPIO.HIGH)  # Relay OFF (fan OFF, active-low)
             buzzer.off()
-            print(f"Temperature: {temperature:.1f}°C | Humidity: {humidity:.1f}% | Fan OFF")
+            print(f"Temperature: {temperature if temperature is not None else 'N/A'}°C | Humidity: {humidity if humidity is not None else 'N/A'}% | Fan OFF")
 
         # LDR-based LED control
         if GPIO.input(LDR_PIN) == 0:  # Light detected
