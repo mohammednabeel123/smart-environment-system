@@ -13,7 +13,7 @@ DHT_PIN = 2
 LDR_PIN = 22
 
 # Actuators
-RELAY_PIN = 21
+RELAY_PIN = 16
 RED_LED = 3
 GREEN_LED = 4
 buzzer = Buzzer(20)
