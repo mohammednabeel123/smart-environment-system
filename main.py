@@ -25,7 +25,7 @@ GPIO.setup(LDR_PIN, GPIO.IN)
 GPIO.setup(RED_LED, GPIO.OUT)
 GPIO.setup(GREEN_LED, GPIO.OUT)
 
-FAN_TEMP_THRESHOLD = 150  # Relay ON temp
+FAN_TEMP_THRESHOLD = 30  # Relay ON temp in °C
 
 # --- Thread functions ---
 def ldr_led_control():
@@ -46,20 +46,23 @@ def temp_relay_buzzer():
     while True:
         humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
 
-        if humidity is not None and temperature is not None:
-            print(f"Temperature: {temperature:.1f}°C | Humidity: {humidity:.1f}%")
-            if temperature >= FAN_TEMP_THRESHOLD:
-                GPIO.output(RELAY_PIN, GPIO.LOW)  # Relay ON
-                buzzer.on()
-                print("Fan ON → Relay + Buzzer")
-            else:
-                GPIO.output(RELAY_PIN, GPIO.HIGH)  # Relay OFF
-                buzzer.off()
-                print("Fan OFF → Relay + Buzzer")
-        else:
-            print("Failed to read DHT22")
+        # --- Sanity check ---
+        if humidity is None or temperature is None or temperature < -20 or temperature > 60:
+            print("Invalid DHT reading, skipping...")
             GPIO.output(RELAY_PIN, GPIO.HIGH)  # Relay OFF
             buzzer.off()
+            time.sleep(2)
+            continue
+
+        print(f"Temperature: {temperature:.1f}°C | Humidity: {humidity:.1f}%")
+        if temperature >= FAN_TEMP_THRESHOLD:
+            GPIO.output(RELAY_PIN, GPIO.LOW)  # Relay ON (active LOW)
+            buzzer.on()
+            print("Fan ON → Relay + Buzzer")
+        else:
+            GPIO.output(RELAY_PIN, GPIO.HIGH)  # Relay OFF
+            buzzer.off()
+            print("Fan OFF → Relay + Buzzer")
 
         time.sleep(2)  # slower update for temperature
 
