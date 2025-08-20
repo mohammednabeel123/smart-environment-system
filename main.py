@@ -11,6 +11,7 @@ GPIO.setwarnings(False)
 DHT_SENSOR = Adafruit_DHT.DHT22
 DHT_PIN = 2
 LDR_PIN = 22
+RELAY_PIN = 16
 
 # Actuators
 RED_LED = 3
