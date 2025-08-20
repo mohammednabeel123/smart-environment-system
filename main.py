@@ -38,6 +38,7 @@ try:
             print(f"Temperature: {temperature:.1f}°C | Humidity: {humidity:.1f}%")
         else:
             print("Failed to read from DHT22 sensor")
+            GPIO.output(RELAY_PIN, GPIO.LOW)
             time.sleep(2)
             continue
 
