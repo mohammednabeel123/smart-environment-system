@@ -33,14 +33,13 @@ print("Starting Smart Environment Monitor...")
 
 try:
     while True:
-        # Read DHT22 sensor
-        humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
-
-        # Skip iteration if sensor reading failed
-        if temperature is None or humidity is None:
-            print("Waiting for DHT sensor...")
-            time.sleep(2)
-            continue
+        # Keep reading until a valid sensor value is obtained
+        humidity, temperature = None, None
+        while temperature is None or humidity is None:
+            humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
+            if temperature is None or humidity is None:
+                print("Waiting for valid DHT reading...")
+                time.sleep(1)
 
         # Temperature-based fan control
         if temperature > FAN_TEMP_THRESHOLD:
