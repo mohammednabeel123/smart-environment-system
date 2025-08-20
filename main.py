@@ -25,7 +25,7 @@ GPIO.setup(LDR_PIN, GPIO.IN)
 GPIO.setup(RED_LED, GPIO.OUT)
 GPIO.setup(GREEN_LED, GPIO.OUT)
 
-FAN_TEMP_THRESHOLD = 30  # Relay ON temp
+FAN_TEMP_THRESHOLD = 150  # Relay ON temp
 
 # --- Thread functions ---
 def ldr_led_control():
