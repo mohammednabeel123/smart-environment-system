@@ -1,7 +1,8 @@
 import time
 import Adafruit_DHT
 import RPi.GPIO as GPIO
-from gpiozero import Buzzer import Button
+from gpiozero import Buzzer
+from gpiozero import Button
 
 # --- GPIO SETUP ---
 GPIO.setmode(GPIO.BCM)
