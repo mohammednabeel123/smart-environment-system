@@ -34,11 +34,11 @@ FAN_TEMP_THRESHOLD = 30  # Relay ON temp
 
 
 print("Starting Smart Environment Monitor...")
-
 try:
     while True:
         humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
-        humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
+
+        # Temperature-based fan control
         if temperature < FAN_TEMP_THRESHOLD:
             GPIO.output(RELAY_PIN, GPIO.HIGH)  # Relay OFF
             buzzer.off()
@@ -48,16 +48,16 @@ try:
             buzzer.on()
             print(f"Temperature: {temperature:.1f}°C | Humidity: {humidity:.1f}% | Fan ON")
 
-        
+        # LDR-based LED control
         if GPIO.input(LDR_PIN) == 0:  # Light detected
-            print("LDR: Light detected")
             GPIO.output(RED_LED, GPIO.HIGH)
             GPIO.output(GREEN_LED, GPIO.LOW)
+            print("LDR: Light detected")
         else:  # Dark
-            print("LDR: Dark")
             GPIO.output(RED_LED, GPIO.LOW)
             GPIO.output(GREEN_LED, GPIO.HIGH)
-        
+            print("LDR: Dark")
+
         time.sleep(2)
 
 except KeyboardInterrupt:
