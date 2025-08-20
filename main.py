@@ -13,13 +13,12 @@ DHT_PIN = 2
 LDR_PIN = 22
 
 # Actuators
-RELAY_PIN = 16
 RED_LED = 3
 GREEN_LED = 4
 buzzer = Buzzer(20)
 
 # Initialize pins
-GPIO.setup(RELAY_PIN, GPIO.OUT, initial=GPIO.LOW)  # Relay OFF at start
+GPIO.setup(RELAY_PIN, GPIO.OUT, initial=GPIO.HIGH)  # Relay OFF at start
 GPIO.setup(LDR_PIN, GPIO.IN)
 GPIO.setup(RELAY_PIN, GPIO.OUT)
 GPIO.setup(RED_LED, GPIO.OUT)
