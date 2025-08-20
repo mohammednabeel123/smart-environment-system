@@ -30,6 +30,8 @@ GPIO.setup(GREEN_LED, GPIO.OUT)
 while True:
     if button.is_pressed:
         print("pressed")
+        GPIO.setup(RELAY_PIN, GPIO.LOW)
     else:
         print("Button not pressed")
+        GPIO.setup(RELAY_PIN, GPIO.HIGH)
         
