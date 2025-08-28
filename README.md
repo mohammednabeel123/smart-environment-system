@@ -76,7 +76,7 @@ pip3 install RPi.GPIO gpiozero Adafruit_DHT
 3. Run the program:
 
 ```bash
-python3 smart_environment_monitor.py
+python3 main.py
 ```
 
 4. Watch LEDs respond to light and the fan/buzzer respond to temperature.
